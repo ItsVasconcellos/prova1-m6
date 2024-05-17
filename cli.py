@@ -18,8 +18,6 @@ class DrawingTurtle(Node):
         self.kill_turtle = self.create_client(Kill, '/kill')
         self.set_pen = self.create_client(SetPen, f'/{self.turtle_name}/set_pen')
         self.draw = self.create_publisher(Twist, f'/{self.turtle_name}/cmd_vel',10)
-        self.command = self.create_subscription("/vel", list, self.listener_callback,10)
-        self.subscription  # prevent unused variable warning
         self.vx_deque = deque()
         self.vy_deque = deque()
         self.vt_deque = deque()
@@ -62,7 +60,7 @@ class DrawingTurtle(Node):
         self.t_deque.append(t)
 
     # Função para desenhar um círculo
-    def draw_circle(self):
+    def draw_object(self):
         msg = Twist()
         msg.linear.x = self.vx_deque.popleft()
         msg.linear.y = self.vy_deque.popleft()
@@ -74,10 +72,13 @@ class DrawingTurtle(Node):
 @app.command()
 def mover(vx: float, vy: float, vt:float, t:int):
     rclpy.init()
-    node = DrawingTurtle("PalmeirasTurtle")
+    node = DrawingTurtle("TartarugaSocorro")
+    node.spawn()
+    node.kill_original()
+    node.set_pen_color()
     node.add_deque(vx,vy,vt,t)
-    for _ in node.vx_deque :
-        node.draw()
+    for _ in range(len(node.vx_deque)) :
+        node.draw_object()
 
 # Executa a aplicação
 if __name__ == "__main__":
