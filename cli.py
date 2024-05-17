@@ -57,7 +57,7 @@ class DrawingTurtle(Node):
         self.vx_deque.append(vx)
         self.vy_deque.append(vy)
         self.vt_deque.append(vt)
-        self.t_deque.append(t)
+        self.t_deque.append(int(t/1000))
 
     # Função para desenhar um círculo
     def draw_object(self):
