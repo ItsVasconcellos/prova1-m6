@@ -71,8 +71,8 @@ class DrawingTurtle(Node):
             self.draw.publish(msg)
             time.sleep(1)
         
-@app.comand()
-def mover(vx: int, vy:int, vt:int = 0, t:int = 1000):
+@app.command()
+def mover(vx: float, vy: float, vt:float, t:int):
     rclpy.init()
     node = DrawingTurtle("PalmeirasTurtle")
     node.add_deque(vx,vy,vt,t)
